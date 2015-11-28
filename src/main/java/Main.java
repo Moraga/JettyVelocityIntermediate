@@ -1,4 +1,3 @@
-import org.apache.commons.collections.iterators.ObjectArrayIterator;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
@@ -11,9 +10,9 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 public class Main {
@@ -39,7 +38,7 @@ public class Main {
         }
 
         protected void fillContext(Context context, HttpServletRequest request) {
-            context.put("extend", new ExtendTool());
+            context.put("object", new ObjectTool());
         }
 
         protected Template getTemplate(HttpServletRequest request, HttpServletResponse response) {
@@ -48,7 +47,7 @@ public class Main {
         }
     }
 
-    public static class ExtendTool {
+    public static class ObjectTool {
         public void extend(HashMap dest, HashMap data) {
             for (Object key : data.keySet()) {
                 Object value = data.get(key);
@@ -83,5 +82,36 @@ public class Main {
             }
         }
 
+        public HashMap clone(HashMap data) {
+            HashMap dest = new HashMap();
+            for (Object key: data.keySet()) {
+                if (data.get(key) instanceof HashMap) {
+                    dest.put(key, clone((HashMap) data.get(key)));
+                }
+                else if (data.get(key) instanceof ArrayList) {
+                    dest.put(key, clone((ArrayList) data.get(key)));
+                }
+                else {
+                    dest.put(key, data.get(key));
+                }
+            }
+            return dest;
+        }
+
+        public ArrayList clone(ArrayList list) {
+            ArrayList ret = new ArrayList();
+            for (int i = 0; i < list.size(); ++i) {
+                if (list.get(i) instanceof HashMap) {
+                    ret.add(clone((HashMap) list.get(i)));
+                }
+                else if (list.get(i) instanceof ArrayList) {
+                    ret.add((ArrayList) list.get(i));
+                }
+                else {
+                    ret.add(list.get(i));
+                }
+            }
+            return ret;
+        }
     }
 }
