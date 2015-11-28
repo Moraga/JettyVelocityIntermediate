@@ -105,7 +105,7 @@ public class Main {
                     ret.add(clone((HashMap) list.get(i)));
                 }
                 else if (list.get(i) instanceof ArrayList) {
-                    ret.add((ArrayList) list.get(i));
+                    ret.add(clone((ArrayList) list.get(i)));
                 }
                 else {
                     ret.add(list.get(i));
