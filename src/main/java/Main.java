@@ -98,20 +98,20 @@ public class Main {
             return dest;
         }
 
-        public ArrayList clone(ArrayList list) {
-            ArrayList ret = new ArrayList();
-            for (int i = 0; i < list.size(); ++i) {
-                if (list.get(i) instanceof HashMap) {
-                    ret.add(clone((HashMap) list.get(i)));
+        public ArrayList clone(ArrayList data) {
+            ArrayList dest = new ArrayList();
+            for (Object item: data) {
+                if (item instanceof HashMap) {
+                    dest.add(clone((HashMap) item));
                 }
-                else if (list.get(i) instanceof ArrayList) {
-                    ret.add(clone((ArrayList) list.get(i)));
+                else if (item instanceof ArrayList) {
+                    dest.add(clone((ArrayList) item));
                 }
                 else {
-                    ret.add(list.get(i));
+                    dest.add(item);
                 }
             }
-            return ret;
+            return dest;
         }
     }
 }
