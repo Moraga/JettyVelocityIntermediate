@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.AreaAveragingScaleFilter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -49,11 +50,11 @@ public class Main {
 
     public static class ObjectTool {
         public void extend(HashMap dest, HashMap data) {
-            for (Object key : data.keySet()) {
+            for (Object key: data.keySet()) {
                 Object value = data.get(key);
                 if (value instanceof HashMap) {
                     HashMap temp;
-                    if (dest.containsKey(key)) {
+                    if (dest.get(key) instanceof HashMap) {
                         temp = (HashMap) dest.get(key);
                     }
                     else {
@@ -66,18 +67,28 @@ public class Main {
                     if (!(dest.get(key) instanceof ArrayList)) {
                         dest.put(key, new ArrayList());
                     }
-                    ArrayList temp = (ArrayList) value;
-                    for (int i = 0; i < temp.size(); ++i) {
-                        if (temp.get(i) instanceof HashMap) {
-                            ((ArrayList) dest.get(key)).add(new HashMap((HashMap) temp.get(i)));
-                        }
-                        else {
-                            ((ArrayList) dest.get(key)).add(temp.get(i));
-                        }
-                    }
+                    extend((ArrayList) dest.get(key),(ArrayList) value);
                 }
                 else {
                     dest.put(key, value);
+                }
+            }
+        }
+
+        public void extend(ArrayList dest, ArrayList data) {
+            for (Object item: data) {
+                if (item instanceof HashMap) {
+                    HashMap temp = new HashMap();
+                    extend(temp, (HashMap) item);
+                    dest.add(temp);
+                }
+                else if (item instanceof ArrayList) {
+                    ArrayList temp = new ArrayList();
+                    extend(temp, (ArrayList) item);
+                    dest.add(temp);
+                }
+                else {
+                    dest.add(item);
                 }
             }
         }
