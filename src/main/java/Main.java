@@ -1,6 +1,5 @@
 import org.apache.velocity.Template;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.VelocityViewServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -10,11 +9,8 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.AreaAveragingScaleFilter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Properties;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -22,6 +18,7 @@ public class Main {
         Server server = new Server(8001);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
+        context.setResourceBase("templates");
         server.setHandler(context);
         // velocity
         context.addServlet(new ServletHolder(new Servlet()), "/*");
@@ -32,14 +29,7 @@ public class Main {
     public static class Servlet extends VelocityViewServlet {
         public void init(ServletConfig config) throws ServletException {
             super.init(config);
-            Properties p = new Properties();
-            p.setProperty("file.resource.loader.path", "C:\\templatecache-local\\templates\\test");
-            p.setProperty("eventhandler.include.class", "org.apache.velocity.app.event.implement.IncludeRelativePath");
-            Velocity.init(p);
-        }
-
-        protected void fillContext(Context context, HttpServletRequest request) {
-            context.put("object", new ObjectTool());
+            Velocity.init("templates/WEB-INF/velocity.properties");
         }
 
         protected Template getTemplate(HttpServletRequest request, HttpServletResponse response) {
