@@ -3,5 +3,6 @@
     <toolbox scope="application">
         <tool class="ObjectTool"/>
         <tool class="HandlebarsTool"/>
+        <tool class="JSONTool"/>
     </toolbox>
 </tools>
