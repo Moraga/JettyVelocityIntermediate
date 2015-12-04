@@ -2,5 +2,6 @@
 <tools>
     <toolbox scope="application">
         <tool class="ObjectTool"/>
+        <tool class="HandlebarsTool"/>
     </toolbox>
 </tools>

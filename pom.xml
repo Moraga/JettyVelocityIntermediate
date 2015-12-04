@@ -7,6 +7,7 @@
     <artifactId>jack</artifactId>
     <version>1.0-SNAPSHOT</version>
     <dependencies>
+        <!-- jetty -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
@@ -17,6 +18,7 @@
             <artifactId>jetty-servlet</artifactId>
             <version>9.3.6.v20151106</version>
         </dependency>
+        <!-- velocity -->
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
@@ -32,8 +34,7 @@
             <artifactId>handlebars</artifactId>
             <version>4.0.1</version>
         </dependency>
-
-        <!-- LOG -->
+        <!-- log -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -48,6 +49,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.5</version>
+        </dependency>
+        <!-- Handlebars -->
+        <dependency>
+            <groupId>com.github.jknack</groupId>
+            <artifactId>handlebars</artifactId>
+            <version>4.0.1</version>
         </dependency>
     </dependencies>
 </project>
