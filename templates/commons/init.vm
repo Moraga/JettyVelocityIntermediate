@@ -1,0 +1,73 @@
+
+#define ($body)
+    #render($content.type)
+#end
+
+#define ($document)
+    $body
+#end
+
+#set($components = [$content.type])
+
+## load components
+#foreach ($i in [0..99])
+    ## stops
+    #if ($i == $components.size())
+        #break
+    #end
+
+    #set($component = $components[$i])
+
+    ## override
+
+    ## versions
+    #if ($config.version.get($component))
+        #set($component = "$component/$config.version[$component]")
+    #end
+
+    #parse("components/$component/controller.vm")
+
+    ## default parameters
+    #if ($default)
+        #set($config.components[$component] = $default)
+        #set($default = false)
+    #end
+
+    ## cache control
+    #if ($cache > $config.cache)
+        #set($config.cache = $cache)
+        #set($cache = 0)
+    #end
+
+    ## dependencies
+    #if ($require)
+        #foreach ($item in $require)
+            #if ($components.indexOf($item) == -1)
+                $components.add($components.size(), $item)
+            #end
+        #end
+    #end
+#end
+
+#set($render-stack = [])
+
+#macro (render $render-component $render-data $render-alias)
+    #set($null = $render-stack.add($data))
+
+    #set($data = $render-data)
+
+    #set($null = '#set($null = $!' + $render-component + ')')
+
+    #evaluate($null)
+
+    #if ($render-alias)
+
+    #else
+        $null
+    #end
+
+    #set($data = $render-stack.remove($math.sub($render-stack.size(), 1)))
+#end
+
+
+$!document

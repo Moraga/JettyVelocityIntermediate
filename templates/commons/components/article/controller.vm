@@ -1,0 +1,7 @@
+
+#set($require = ["header"])
+
+#define ($article)
+    $header
+    Article
+#end
