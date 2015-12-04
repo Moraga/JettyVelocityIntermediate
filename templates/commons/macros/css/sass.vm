@@ -1,0 +1,39 @@
+
+#macro (sass $sass-selector $sass-extend $sass-setonly)
+	## variable name
+	#set($sass-var = $sass-selector)
+
+	## removes first dot
+	#if ($sass-var.charAt(0) == '.')
+		#set($sass-var = $sass-var.substring(1))
+	#end
+
+	## slugfy
+	#set($sass-var = $sass-var.replaceAll('[^\w\d]+', '-'))
+
+	## properties container
+	#set($temp = {})
+
+	## extend properties from other variables
+	#if ($sass-extend)
+		#foreach ($null in $sass-extend)
+			$temp.putAll($null)
+		#end
+	#end
+
+	## self definitions
+	#if ($bodyContent)
+		#foreach ($sass-rule in $bodyContent.toString().split("\n+"))
+			#set($sass-rule = $sass-rule.trim().split("\s*:\s*"))
+			#set($null = $temp.put($sass-rule[0], $sass-rule[1]))
+		#end
+	#end
+
+	## creates the variable
+	#evaluate("$escape.getH()set($escape.getD()$sass-var = $escape.getD()temp)")
+
+	## print the definitions
+	#if (!$sass-setonly)
+		$sass-selector $_json.toString($temp).replace('"', '').replace('\', '"').replace(',', ';')
+	#end
+#end

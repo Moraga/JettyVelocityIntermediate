@@ -1,0 +1,19 @@
+#set($render-stack = [])
+
+#macro (render $render-component $render-data $render-alias)
+    #set($null = $render-stack.add($data))
+
+    #set($data = $render-data)
+
+    #set($null = '#set($null = $!' + $render-component + ')')
+
+    #evaluate($null)
+
+    #if ($render-alias)
+
+    #else
+        $null
+    #end
+
+    #set($data = $render-stack.remove($math.sub($render-stack.size(), 1)))
+#end

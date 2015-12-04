@@ -1,5 +1,6 @@
 
 #parse("config.vm")
+#parse("macros.vm")
 
 #set($system = {
 	"corepath": "commons"
@@ -9,6 +10,7 @@
 #set($config.channel = $link.host)
 #set($config.abspath = "config/${system.backend}.vm")
 
+#*
 #foreach ($i in $system.backend.split("\."))
 	#if ($include.exists("commons/$config.abspath"))
 		#parse($config.abspath)
@@ -16,6 +18,7 @@
 	#end
 	#set($config.abspath = $config.abspath.replaceAll("(.*)\.[^.]+\.vm$", "$1.vm"))
 #end
+*#
 
 #define ($body)
     #render($content.type)
@@ -66,26 +69,5 @@
         #end
     #end
 #end
-
-#set($render-stack = [])
-
-#macro (render $render-component $render-data $render-alias)
-    #set($null = $render-stack.add($data))
-
-    #set($data = $render-data)
-
-    #set($null = '#set($null = $!' + $render-component + ')')
-
-    #evaluate($null)
-
-    #if ($render-alias)
-
-    #else
-        $null
-    #end
-
-    #set($data = $render-stack.remove($math.sub($render-stack.size(), 1)))
-#end
-
 
 $!document

@@ -1,0 +1,37 @@
+
+#macro (rgb $rgb-hex $rgb-alpha)
+	#set($rgb-hex = $rgb-hex.toLowerCase())
+	#set($rgb-rgb = "")
+
+	#set($rgb-tabl = "0123456789abcdef")
+	#set($rgb-incr = 1)
+	#set($null = 0)
+
+	## remove hash
+	#if ($rgb-hex.charAt(0) == "#")
+		#set($rgb-hex = $rgb-hex.substring(1))
+	#end
+
+	## fix to six characters
+	#if ($rgb-hex.length() == 3)
+		#set($rgb-hex = "$rgb-hex.charAt(0)$rgb-hex.charAt(0)$rgb-hex.charAt(1)$rgb-hex.charAt(1)$rgb-hex.charAt(2)$rgb-hex.charAt(2)")
+	#end
+
+	#foreach ($i in [0..5])
+		#set($null = $rgb-tabl.indexOf("$rgb-hex.charAt($i)") * $math.pow(16, $rgb-incr) + $null)
+		#set($rgb-incr = $rgb-incr - 1)
+		#if ($velocityCount % 2 == 0)
+			#set($rgb-rgb = $rgb-rgb.concat(",$null"))
+			#set($rgb-incr = 1)
+			#set($null = 0)
+		#end
+	#end
+
+	#set($rgb-rgb = $rgb-rgb.substring(1))
+
+	#if ($rgb-alpha)
+		rgba($rgb-rgb, $rgb-alpha)
+	#else
+		rgb($rgb-rgb)
+	#end
+#end

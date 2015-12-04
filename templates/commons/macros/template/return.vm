@@ -1,0 +1,5 @@
+
+
+#macro (return $return-template $return-data $return-validation)
+	$handlebars.render("$system.corepath/components/$return-template", $return-data)
+#end

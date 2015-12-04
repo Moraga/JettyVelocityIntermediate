@@ -1,0 +1,12 @@
+#set($config = {
+	"corepath": "",
+	"mediaurl": "",
+	"cache": 0,
+	
+	
+	"charset": "utf-8",
+	
+	"version": {},
+	
+	"components": {}
+})

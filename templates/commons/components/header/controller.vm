@@ -1,5 +1,5 @@
 
 
 #define ($header)
-    Header
+   #return("header/view.tpl" {"message": "Hello from Header!"})
 #end
