@@ -26,7 +26,7 @@
 })
 
 #define ($body)
-    #render($content.type)
+    #render($content.type $data)
 #end
 
 #define ($document)
