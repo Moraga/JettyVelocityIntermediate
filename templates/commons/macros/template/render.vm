@@ -3,25 +3,22 @@
 #macro (render $render-component $render-data $render-alias)
     #set($null = $render-stack.add($data))
 	
-	## get default data
-    #set($data = $object.clone($config.components[$render-component]))
+	#set($data = $render-data)
 	
-	## merge call arguments
-	#if ($render-data)
-		$object.extend($data, $render-data)
-	#end
+	#set($temp = $object.clone($config.components[$render-component]))
 	
-	#set($render-component = $render-component.replace('/', '--'))
+	$object.extend($temp, $data)
 	
-
-    #set($null = '#set($null = $!' + $render-component + ')')
+	#set($data = $temp)
+	
+    #set($null = '#set($null = $!' + $render-component.replace("/", "--") + ')')
 
     #evaluate($null)
 
     #if ($render-alias)
 		
 		#if ($render-alias == true)
-			#set($content.components.render[$render-component] = $null)
+			#set($content.components.render[$render-component.replace("/", "--")] = $null)
 		#else
 			#set($content.component.render[$render-alias] = $null)
 		#end
