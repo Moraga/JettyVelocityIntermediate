@@ -77,4 +77,14 @@ public class ObjectTool {
         }
         return dest;
     }
+
+    public String implode(String glue, ArrayList list) {
+        String ret = "";
+        String str = "";
+        for (Object item: list) {
+            ret += str + item;
+            str = glue;
+        }
+        return ret;
+    }
 }
