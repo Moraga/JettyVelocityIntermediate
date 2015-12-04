@@ -1,4 +1,22 @@
 
+#parse("config.vm")
+
+#set($system = {
+	"corepath": "commons"
+})
+
+#set($system.backend = $link.host.replaceAll("([^\.]+).*", "$1") + $link.path.replace("/", "."))
+#set($config.channel = $link.host)
+#set($config.abspath = "config/${system.backend}.vm")
+
+#foreach ($i in $system.backend.split("\."))
+	#if ($include.exists("commons/$config.abspath"))
+		#parse($config.abspath)
+		#break
+	#end
+	#set($config.abspath = $config.abspath.replaceAll("(.*)\.[^.]+\.vm$", "$1.vm"))
+#end
+
 #define ($body)
     #render($content.type)
 #end
