@@ -20,6 +20,11 @@
 #end
 *#
 
+## default content
+#set($content.components = {
+	"render": {}
+})
+
 #define ($body)
     #render($content.type)
 #end
@@ -52,6 +57,8 @@
     #if ($default)
         #set($config.components[$component] = $default)
         #set($default = false)
+	#else
+		#set($config.components[$component] = {})
     #end
 
     ## cache control

@@ -1,0 +1,12 @@
+
+#define ($load--js)
+	$response.setContentType('application/javascript')
+	
+	#foreach ($item in $params.load.split(','))
+		
+		#if ($include.exists("$system.corepath/components/$item/script.js"))
+			#parse("components/$item/script.js")
+		#end
+		
+	#end
+#end

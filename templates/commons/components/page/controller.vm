@@ -1,0 +1,20 @@
+
+#set($require = ["header"])
+
+#define ($document)
+	#set($body = "$body")
+	
+	<!doctype html>
+	<html>
+		<head>
+			<meta charset="$config.charset">
+			<link rel="stylesheet" href="/style.css?load=$object.implode(',', $components)">
+		</head>
+		<body>
+			$header
+			$body
+			$footer
+			<script src="/script.js?load=$object.implode(',', $components)"></script>
+		</body>
+	</html>
+#end

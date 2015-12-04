@@ -1,7 +1,10 @@
 
-#set($require = ["header"])
+#set($require = ["page"])
+
+#set($default = {
+	"title": "Default title"
+})
 
 #define ($article)
-    $header
-    Article
+	#return("article/view.tpl" $data)
 #end
