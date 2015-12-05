@@ -7,7 +7,11 @@
 	
 	#set($temp = $object.clone($config.components[$render-component]))
 	
-	$object.extend($temp, $data)
+	#if ($data)
+		$object.extend($temp, $data)
+	#else
+		#set($data = $temp)
+	#end
 	
 	#set($data = $temp)
 	
