@@ -34,7 +34,11 @@
 ## load components
 #foreach ($i in [0..99])
 	#if ($i == $components.size())
-        #break
+		#if ($params.readme && $components.indexOf("readme") == -1)
+			$components.add($components.size(), "readme")
+		#else
+			#break
+		#end
     #end
 	
 	#set($component = $components[$i])

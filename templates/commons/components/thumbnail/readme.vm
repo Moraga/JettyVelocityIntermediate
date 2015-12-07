@@ -1,0 +1,11 @@
+
+
+
+#render("thumbnail" {
+	"items": [
+		{
+			"title": "Readme title example",
+			"description": "Readme description example"
+		}
+	]
+})

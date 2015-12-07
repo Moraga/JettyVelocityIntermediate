@@ -1,0 +1,34 @@
+
+#set($require = ["page"])
+
+#if ($params.readme != "")
+	#set($null = $require.add($params.readme))
+#end
+
+#define ($body)
+	## overrides header and footer
+	#define ($header)#end
+	#define ($footer)#end
+	
+	#if ($params.readme == "")
+		$readme-list
+	#else
+		$readme-view
+	#end
+#end
+
+#define ($readme-list)
+	Components used in this page: <br>
+	
+	#foreach ($item in $components)
+		
+		<a href="?readme=$item">$item</a> <br>
+		
+	#end
+#end
+
+#define ($readme-view)
+	
+	#parse("components/$params.readme/readme.vm")
+	
+#end
