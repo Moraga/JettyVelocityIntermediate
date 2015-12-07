@@ -1,10 +1,13 @@
 
+## dependencies
 #set($require = ["page"])
 
+## default parameters
 #set($default = {
 	"title": "Default title"
 })
 
+## main
 #define ($article)
 	#return("article/view.tpl" $data)
 #end

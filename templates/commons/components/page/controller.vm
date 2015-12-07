@@ -1,5 +1,5 @@
 
-#set($require = ["header"])
+#set($require = ["bootstrap", "header"])
 
 #define ($document)
 	#set($body = "$body")

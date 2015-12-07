@@ -1,4 +1,5 @@
 
+#set($require = ["menu"])
 
 #define ($header)
    #return("header/view.tpl" {"message": "Hello from Header!"})

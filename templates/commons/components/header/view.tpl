@@ -1,3 +1,5 @@
 
 
-{{ message }}
+{{ data.message }}
+
+{{{ components.menu }}}

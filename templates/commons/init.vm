@@ -1,16 +1,13 @@
 
 #parse("config.vm")
+#parse("system.vm")
 #parse("macros.vm")
-
-#set($system = {
-	"corepath": "commons"
-})
 
 #set($system.backend = $link.host.replaceAll("([^\.]+).*", "$1") + $link.path.replace("/", "."))
 #set($config.channel = $link.host)
 #set($config.abspath = "config/${system.backend}.vm")
 
-#*
+## gets the config file for the request
 #foreach ($i in $system.backend.split("\."))
 	#if ($include.exists("commons/$config.abspath"))
 		#parse($config.abspath)
@@ -18,12 +15,8 @@
 	#end
 	#set($config.abspath = $config.abspath.replaceAll("(.*)\.[^.]+\.vm$", "$1.vm"))
 #end
-*#
 
 ## default content
-#set($content.components = {
-	"render": {}
-})
 
 #define ($body)
     #render($content.type $data)
@@ -35,46 +28,66 @@
 
 #set($components = [$content.type])
 
+#set($content.components = [$content.type])
+
 ## load components
 #foreach ($i in [0..99])
-    ## stops
-    #if ($i == $components.size())
+	#if ($i == $components.size())
         #break
     #end
-
-    #set($component = $components[$i])
-
-    ## override
-
+	
+	#set($component = $components[$i])
+	
     ## versions
-    #if ($config.version.get($component))
+    #if ($config.version.containsKey($component))
         #set($component = "$component/$config.version[$component]")
     #end
-
-    #parse("components/$component/controller.vm")
-
-    ## default parameters
+	
+	## loads the controller
+	#if ($include.exists("$system.corepath/components/$component/controller.vm"))
+		#parse("components/$component/controller.vm")
+	#end
+	
+	## override
+	#if ($include.exists("$system.corepath/override/$config.channel/$components[$i]/controller.vm"))
+		#parse("override/$config.channel/$components[$i]/controller.vm")
+	#end
+	
+	## default parameters
     #if ($default)
         #set($config.components[$component] = $default)
         #set($default = false)
 	#else
 		#set($config.components[$component] = {})
     #end
-
-    ## cache control
+	
+	## cache control
     #if ($cache > $config.cache)
         #set($config.cache = $cache)
         #set($cache = 0)
     #end
-
+	
     ## dependencies
     #if ($require)
+		#set($index = $content.components.indexOf($component))
         #foreach ($item in $require)
-            #if ($components.indexOf($item) == -1)
-                $components.add($components.size(), $item)
+            #if ($components.indexOf($item) == -1 && $components.add($item))
+				$content.components.add($index, $item)
+				#set($index = $index + 1)
             #end
         #end
+		#set($require = false)
     #end
 #end
+
+#set($components = $content.components)
+
+#set($content.components = {})
+
+#foreach ($item in $components)
+	#evaluate("${esc.h}set($esc.d$esc.velocity('content.components').$item = $esc.d!$item)")
+#end
+
+#set($content.components.render = {})
 
 $!document

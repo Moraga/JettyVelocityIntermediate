@@ -1,0 +1,7 @@
+
+
+#define ($menu)
+	<ul>
+		<li>MenuItem</li>
+	</ul>
+#end
