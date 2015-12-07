@@ -1,0 +1,22 @@
+##
+## Components on demand
+##
+
+#set($content.type = $params.type)
+
+## main component
+#set($require = [$content.type])
+
+## high-order dependencies
+#if ($params.require)
+	#foreach ($item in $params.require.split("[ ,]+"))
+		$require.add($require.size(), $item)
+	#end
+#end
+
+## preparing data to component
+#if ($params.args)
+	#set($data = $json.parse($params.args))
+#else
+	#set($data = $params.getAll())
+#end
