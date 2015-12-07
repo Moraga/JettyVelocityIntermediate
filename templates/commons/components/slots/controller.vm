@@ -1,0 +1,17 @@
+
+#define ($slots)
+	
+	#foreach ($item in $data)
+		#if (!$item.data)
+			#set($item.data = {})
+		#end
+		
+		## merge with parent data
+		#if ($parent.containsKey($item.name))
+			$object.extend($item.data, $parent[$item.name])
+		#end
+		
+		#render($item.name $item.data false)
+	#end
+	
+#end
