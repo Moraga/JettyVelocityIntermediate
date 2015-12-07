@@ -1,6 +1,6 @@
 
 ## dependencies
-#set($require = ["page"])
+#set($require = ["page", "thumbnail"])
 
 ## default parameters
 #set($default = {
@@ -9,5 +9,14 @@
 
 ## main
 #define ($article)
+	
+	#render("thumbnail" {
+		"items": [
+			{"title": "Related News 1", "description": "Description of related news 1"},
+			{"title": "Related News 2", "description": "Description of related news 2"},
+			{"title": "Related News 3", "description": "Description of related news 3"}
+		]
+	} "related-news")
+	
 	#return("article/view.tpl" $data)
 #end

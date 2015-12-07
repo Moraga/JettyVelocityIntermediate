@@ -15,18 +15,16 @@
 	
 	#set($data = $temp)
 	
-    #set($null = '#set($null = $!' + $render-component.replace("/", "--") + ')')
+    #set($null = '#set($null = "$!' + $render-component.replace("/", "--") + '")')
 
     #evaluate($null)
 
     #if ($render-alias)
-		
 		#if ($render-alias == true)
 			#set($content.components.render[$render-component.replace("/", "--")] = $null)
 		#else
-			#set($content.component.render[$render-alias] = $null)
+			#set($content.components.render[$render-alias] = $null)
 		#end
-		
     #else
         $null
     #end

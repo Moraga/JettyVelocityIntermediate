@@ -1,0 +1,6 @@
+
+#define ($thumbnail)
+	
+	#return("thumbnail/view.tpl" $data)
+	
+#end
