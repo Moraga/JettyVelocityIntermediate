@@ -3,12 +3,12 @@
 	
 	$response.setContentType('text/css')
 	
+	## shortcuts
+	#set($colors = $config.colors)
+	
 	#foreach ($item in $params.load.split(','))
-		
 		#if ($include.exists("$system.corepath/components/$item/style.css"))
 			#parse("components/$item/style.css")
 		#end
-		
 	#end
-	
 #end

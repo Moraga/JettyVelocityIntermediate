@@ -3,10 +3,13 @@
 	"mediaurl": "",
 	"cache": 0,
 	
-	
 	"charset": "utf-8",
 	
-	"version": {},
+	"versions": {},
+	
+	"colors": {
+		"primary": "#DE0438"
+	},
 	
 	"components": {}
 })

@@ -26,6 +26,7 @@
     $body
 #end
 
+
 #set($components = [$content.type])
 
 #set($content.components = [$content.type])
@@ -39,8 +40,8 @@
 	#set($component = $components[$i])
 	
     ## versions
-    #if ($config.version.containsKey($component))
-        #set($component = "$component/$config.version[$component]")
+    #if ($config.versions.containsKey($component))
+        #set($component = "$component/$config.versions[$component]")
     #end
 	
 	## loads the controller
@@ -85,7 +86,7 @@
 #set($content.components = {})
 
 #foreach ($item in $components)
-	#evaluate("${esc.h}set($esc.d$esc.velocity('content.components').$item = $esc.d!$item)")
+	##evaluate("${esc.h}set($esc.d$esc.velocity('content.components')$item = $esc.d!$item)")
 #end
 
 #set($content.components.render = {})

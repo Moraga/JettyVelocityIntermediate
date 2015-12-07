@@ -1,0 +1,6 @@
+
+#define ($footer)
+	<footer class="footer">
+		<p>Jetty + Velocity + Bootstrap + jQuery + AngularJs + Exposejs</p>
+	</footer>
+#end

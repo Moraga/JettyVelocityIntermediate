@@ -1,2 +1,4 @@
 
-body {color: blue;}
+.article h1 {
+	color: $colors.primary;
+}

@@ -1,7 +1,9 @@
 
-#set($require = ["bootstrap", "header"])
+#set($require = ["bootstrap", "header", "footer"])
 
 #define ($document)
+	## proccess body before call any component
+	## it's allow override from inside to outside
 	#set($body = "$body")
 	
 	<!doctype html>
@@ -12,9 +14,12 @@
 		</head>
 		<body>
 			$header
-			$body
+			<div class="container">
+				$body
+			</div>
 			$footer
 			<script src="/script.js?load=$object.implode(',', $components)"></script>
+			<script>render();</script>
 		</body>
 	</html>
 #end
