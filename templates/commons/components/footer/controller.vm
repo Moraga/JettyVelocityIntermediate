@@ -1,6 +1,9 @@
 
+#set($require = ["about"])
+
 #define ($footer)
 	<footer class="footer">
-		<p>Jetty + Velocity + Bootstrap + jQuery + AngularJs + Exposejs</p>
+		<p>Jetty + Velocity + Handlebars + Bootstrap + jQuery + AngularJs + Exposejs</p>
+		<p><a href="#" class="about">About</a></p>
 	</footer>
 #end

@@ -86,7 +86,8 @@
 #set($content.components = {})
 
 #foreach ($item in $components)
-	##evaluate("${esc.h}set($esc.d$esc.velocity('content.components')$item = $esc.d!$item)")
+	#set($item = $item.replace("/", "--")) ## namespace
+	#evaluate("${esc.h}set($esc.d$esc.velocity('content.components')$item = $esc.d!$item)")
 #end
 
 #set($content.components.render = {})
