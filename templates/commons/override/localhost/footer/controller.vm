@@ -1,0 +1,14 @@
+
+#set($default = {
+	"original": "$footer"
+})
+
+#define ($footer)
+	
+	<footer class="footer">
+		example of component overwrite<br>
+		see the original below:
+	</footer>
+	
+	$data.original
+#end

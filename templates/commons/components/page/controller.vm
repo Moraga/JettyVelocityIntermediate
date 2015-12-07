@@ -17,7 +17,7 @@
 			<div class="container">
 				$body
 			</div>
-			$footer
+			#render("footer" {} false)
 			<script src="/script.js?load=$object.implode(',', $components)"></script>
 			<script>render();</script>
 		</body>
