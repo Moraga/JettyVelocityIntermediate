@@ -13,7 +13,7 @@
 			<link rel="stylesheet" href="/style.css?load=$object.implode(',', $components)">
 		</head>
 		<body>
-			$header
+			#render("header" {} false)
 			<div class="container">
 				$body
 			</div>
