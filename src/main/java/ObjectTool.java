@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class ObjectTool {
     public void extend(HashMap dest, HashMap data) {
@@ -86,5 +87,63 @@ public class ObjectTool {
             str = glue;
         }
         return ret;
+    }
+
+    public void remodel(HashMap data, HashMap rules) {
+        for (Object key: rules.keySet()) {
+            if (data.containsKey(key)) {
+
+
+                HashMap rule = (HashMap) rules.get(key);
+
+                if ("int".equals(rule.get("TYPE"))) {
+                    data.put(key, Integer.parseInt((String) data.get(key)));
+                }
+
+                if (rule.containsKey("MOVETO")) {
+                    String moveto = (String) rule.get("MOVETO");
+                    HashMap base = data;
+                    Scanner scan = new Scanner(moveto);
+                    scan.useDelimiter("\\.");
+                    String node;
+                    while (true) {
+                        node = scan.next();
+                        if (!scan.hasNext()) {
+                            break;
+                        }
+                        if (!base.containsKey(node) || !(base.get(node) instanceof HashMap)) {
+                            HashMap temp = new HashMap();
+                            base.put(node, temp);
+                            base = temp;
+                        } else {
+                            base = (HashMap) base.get(node);
+                        }
+                    }
+                    base.put(node, data.get(key));
+                }
+
+                if (rule.containsKey("REMOVE")) {
+                    data.remove(key);
+                    continue;
+                }
+
+                for (Object prop: rule.keySet()) {
+                    if (prop.toString().indexOf("N+") == 0) {
+                        for (Object item: (ArrayList) data.get(key)) {
+                            remodel((HashMap) item, (HashMap) rule.get(prop));
+                        }
+                    }
+                }
+
+                if (rule.containsKey("RENAME")) {
+                    data.put((String) rule.get("RENAME"), data.get(key));
+                    data.remove(key);
+                }
+            }
+        }
+    }
+
+    public void remodel(ArrayList data, HashMap rules) {
+
     }
 }
