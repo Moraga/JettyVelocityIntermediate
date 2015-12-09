@@ -92,8 +92,6 @@ public class ObjectTool {
     public void remodel(HashMap data, HashMap rules) {
         for (Object key: rules.keySet()) {
             if (data.containsKey(key)) {
-
-
                 HashMap rule = (HashMap) rules.get(key);
 
                 if ("int".equals(rule.get("TYPE"))) {
@@ -127,10 +125,15 @@ public class ObjectTool {
                     continue;
                 }
 
+                // N+n
                 for (Object prop: rule.keySet()) {
-                    if (prop.toString().indexOf("N+") == 0) {
-                        for (Object item: (ArrayList) data.get(key)) {
-                            remodel((HashMap) item, (HashMap) rule.get(prop));
+                    if (prop.toString().matches("N\\+\\d+")) {
+                        int n = Integer.parseInt(prop.toString().substring(2));
+                        ArrayList list = (ArrayList) data.get(key);
+                        for (int i = 0; i < list.size(); ++i) {
+                            if (i % n == 0) {
+                                remodel((HashMap) list.get(i), (HashMap) rule.get(prop));
+                            }
                         }
                     }
                 }
@@ -139,6 +142,12 @@ public class ObjectTool {
                     data.put((String) rule.get("RENAME"), data.get(key));
                     data.remove(key);
                 }
+            }
+            else if ("ADD".equals(key)) {
+                data.putAll((HashMap) rules.get(key));
+            }
+            else if ("DEFAULT".equals(key)) {
+
             }
         }
     }
