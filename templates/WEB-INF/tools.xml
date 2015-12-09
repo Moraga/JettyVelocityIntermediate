@@ -4,5 +4,6 @@
         <tool class="ObjectTool"/>
         <tool class="HandlebarsTool"/>
         <tool class="JSONTool"/>
+        <tool class="MongoTool"/>
     </toolbox>
 </tools>

@@ -1,4 +1,50 @@
 
-#set($content = {"type": "article"})
 
-#parse("commons/init.vm")
+
+
+#foreach ($city in $mongo.find("city"))
+	$city.name
+#end
+
+#*
+
+#set($a = {
+	"a": "1",
+	"d": "dd",
+	"e": [
+		{"n": 1},
+		{"n": 2},
+		{"n": 3},
+		{"n": 4}
+	]
+})
+
+$object.remodel($a, {
+	"a": {
+		"MOVETO": "b.c.d",
+		"REMOVE": true
+	},
+	"d": {
+		"RENAME": "bigD"
+	},
+	"e": {
+		"N+2": {
+			"n": {
+				"RENAME": "bigN"
+			}
+		}
+	},
+	"ADD": {
+		"f": 21,
+		"g": 478
+	},
+	"DEFAULT": {
+		"a": 1,
+		"z": 2
+	}
+})
+
+
+$json.stringify($a)
+
+*#
