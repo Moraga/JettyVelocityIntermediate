@@ -1,22 +1,45 @@
 import com.mongodb.*;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import org.apache.velocity.tools.config.DefaultKey;
+import org.bson.Document;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@DefaultKey("mongo")
 public class MongoTool {
-    public DB db;
+    public String connect;
+    public String db;
+    public String defaultCollection;
+    private MongoDatabase database;
 
     public void configure(Map params) {
-        db = new MongoClient("localhost").getDB("jtest");
+        // get tool configuration
+        connect = (String) params.get("connect");
+        db = (String) params.get("db");
+        defaultCollection = (String) params.get("defaultCollection");
+        // connects to server and gets the database
+        database = new MongoClient(new MongoClientURI(connect)).getDatabase(db);
+    }
+
+    public void insert(HashMap data) {
+        insert(defaultCollection, data);
     }
 
     public void insert(String collection, HashMap data) {
-        DBCollection coll = db.getCollection(collection);
-        coll.insert(new BasicDBObject(data));
+        database.getCollection(collection).insertOne(new Document(data));
     }
 
-    public DBCursor find(String collection) {
-        DBCollection coll = db.getCollection(collection);
-        return coll.find();
+    public MongoCursor<Document> find() {
+        return find(defaultCollection, new HashMap());
+    }
+
+    public MongoCursor<Document> find(HashMap query) {
+        return find(defaultCollection, query);
+    }
+
+    public MongoCursor<Document> find(String collection, HashMap query) {
+        return database.getCollection(defaultCollection).find(new Document(query)).iterator();
     }
 }

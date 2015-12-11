@@ -4,6 +4,6 @@
         <tool class="ObjectTool"/>
         <tool class="HandlebarsTool"/>
         <tool class="JSONTool"/>
-        <tool class="MongoTool"/>
+        <tool class="MongoTool" connect="mongodb://localhost" db="jtest" defaultCollection="test"/>
     </toolbox>
 </tools>
